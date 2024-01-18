@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, R
 # Custom validator 1: Ensure user input does not contain prohibited chars. 
 user_input_allowed_letters = 'a-zA-Z'
 user_input_allowed_numbers = '0-9'
-user_input_allowed_symbols = '.@-#!'
+user_input_allowed_symbols = '.@-#! '
 # Escape the symbols for safe inclusion in regex pattern
 user_input_allowed_symbols_escaped = re.escape(user_input_allowed_symbols or '')
 user_input_allowed_all = ''.join([user_input_allowed_letters, 
@@ -26,11 +26,12 @@ allowed_chars_check_pattern = r'^[' + user_input_allowed_all + r']+$'
 # Define function (no prohibited chars = True).
 def allowed_chars(user_input):
     if re.match(allowed_chars_check_pattern, str(user_input)):
+        print(f'running allowed_chars_validator...  passed for input: {field.data}')
         return True
 # Define validator
 def allowed_chars_validator(form, field):
     if not re.match(allowed_chars_check_pattern, field.data):
-        print(f'Custom validator allowed_chars_validator failed for input: {field.data}')
+        print(f'running allowed_chars_validator...  failed for input: {field.data}')
         raise ValidationError(f'Invalid input for "{field.label.text}" Please ensure user inputs contain only letters, numbers, and the following symbols: {user_input_allowed_symbols}')
     else:
         return field.data
@@ -47,7 +48,8 @@ def pw_strength(user_input):
         len(user_input) >= pw_req_length and 
         len(re.findall(r'[a-zA-Z]', user_input)) >= pw_req_letter and 
         len(re.findall(r'[0-9]', user_input)) >= pw_req_num and
-        len(re.findall(r'[^a-zA-Z0-9]', user_input)) >= pw_req_symbol):
+        len(re.findall(r'[^a-zA-Z0-9]', user_input)) >= pw_req_symbol
+        ):
         return True
 # Define validator
 def pw_strength_validator(form, field):
