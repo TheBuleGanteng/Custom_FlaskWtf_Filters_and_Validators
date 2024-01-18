@@ -21,3 +21,4 @@ def lowercase_filter(input):
 # Custom filter 3: Convert user input to uppercase.
 def uppercase_filter(input):
     return input.upper() if input else input
+    

@@ -9,6 +9,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, R
 # Custom validator 2: Checks user input for password strength requirements.
 # Custom validator 3: Ensure user input is positive.
 # Custom validator 4: Ensures current field and another specified field are different.
+# Custom validator 5: Allows a datefield to be optional
 
 
 # Custom validator 1: Ensure user input does not contain prohibited chars. 
@@ -79,3 +80,10 @@ def not_equal_to_validator(comparison_field):
             raise ValidationError(f"{field.label.text} must be different from {compare_field.label.text}.")
     return values_must_differ
 
+# Custom validator 5: Allows a datefield to be optional
+def optional_if_date_validator(Optional):
+    """Custom validator: makes a DateField optional if no data entered"""
+    def __call__(self, form, field):
+        if not field.raw_data or not field.raw_data[0]:
+            field.errors[:] = []
+            raise StopValidation()
