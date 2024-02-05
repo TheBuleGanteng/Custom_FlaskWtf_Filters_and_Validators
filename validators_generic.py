@@ -92,6 +92,6 @@ def optional_if_date_validator(Optional):
 
 
 # Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
-def validate_end_time(self, field):
+def end_date_validator(self, field):
         if field.data <= form.date_start.data:
             raise ValidationError("End time must be after start time.")
