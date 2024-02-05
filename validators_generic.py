@@ -114,7 +114,7 @@ def end_date_validator(form, field):
 def not_future_date_validator(form, field):
     print(f'not_future_date_validator... ')
     
-    if form.date_end.data and form.date_end.data < datetime.now().date():
+    if form.date_end.data and form.date_end.data > datetime.now().date():
         print(f'running not_future_date_validator... ValidationError: field.data of: { form.date_end.data } is ahead of current date: { datetime.now().date }')
         raise ValidationError("Cannot select a future date.")
             
