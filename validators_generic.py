@@ -11,6 +11,9 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, R
 # Custom validator 4: Ensures current field and another specified field are different.
 # Custom validator 5: Allows a datefield to be optional
 # Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
+# Custom validator 7: The date selected is not in the future
+
+
 
 # Custom validator 1: Ensure user input does not contain prohibited chars. 
 user_input_allowed_letters = 'a-zA-Z'
@@ -92,10 +95,10 @@ def optional_if_date_validator(Optional):
 
 
 # Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
-def end_date_validator(self, field):
+def end_date_validator(form, field):
         print(f'running end_date_validator... ')
         
-        if field.data and form.date_start.data:
+        if field.date_end.data and form.date_start.data:
             end_date = datetime.combine(field.data, datetime.max.time())
             start_date = datetime.combine(form.date_start.data, datetime.min.time())
             print(f'running end_date_validator... end_date is: { end_date }')
@@ -107,11 +110,11 @@ def end_date_validator(self, field):
 
 
 # Custom validator 7: The date selected is not in the future
-def not_future_date_validator(self, field):
+def not_future_date_validator(form, field):
     print(f'not_future_date_validator... ')
     
-    if field.data and field.data < datetime.now().date():
-        print(f'running not_future_date_validator... ValidationError: field.data of: { field.date } is ahead of current date: { datetime.now().date }')
+    if form.date_end.data and form.date_end.data < datetime.now().date():
+        print(f'running not_future_date_validator... ValidationError: field.data of: { form.date_end.data } is ahead of current date: { datetime.now().date }')
         raise ValidationError("Cannot select a future date.")
 
     
