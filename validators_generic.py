@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_wtf import FlaskForm
 import re
 from wtforms import DateField, EmailField, PasswordField, SelectField, StringField, SubmitField, ValidationError
@@ -98,8 +99,8 @@ def optional_if_date_validator(Optional):
 def end_date_validator(form, field):
         print(f'running end_date_validator... ')
         
-        if field.date_end.data and form.date_start.data:
-            end_date = datetime.combine(field.data, datetime.max.time())
+        if form.date_end.data and form.date_start.data:
+            end_date = datetime.combine(form.date_end.data, datetime.max.time())
             start_date = datetime.combine(form.date_start.data, datetime.min.time())
             print(f'running end_date_validator... end_date is: { end_date }')
             print(f'running end_date_validator... start_date is: { start_date }')
