@@ -10,7 +10,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, R
 # Custom validator 3: Ensure user input is positive.
 # Custom validator 4: Ensures current field and another specified field are different.
 # Custom validator 5: Allows a datefield to be optional
-
+# Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
 
 # Custom validator 1: Ensure user input does not contain prohibited chars. 
 user_input_allowed_letters = 'a-zA-Z'
@@ -87,3 +87,9 @@ def optional_if_date_validator(Optional):
         if not field.raw_data or not field.raw_data[0]:
             field.errors[:] = []
             raise StopValidation()
+
+
+# Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
+def validate_end_time(self, field):
+        if field.data <= form.date_start.data:
+            raise ValidationError("End time must be after start time.")
