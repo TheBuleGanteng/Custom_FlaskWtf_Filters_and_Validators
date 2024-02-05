@@ -93,5 +93,34 @@ def optional_if_date_validator(Optional):
 
 # Custom validator 6: Ensure the ending date is <= starting date for forms with start and end fields
 def end_date_validator(self, field):
-        if field.data <= form.date_start.data:
-            raise ValidationError("End time must be after start time.")
+        print(f'running end_date_validator... ')
+        
+        if field.data and form.date_start.data:
+            end_date = datetime.combine(field.data, datetime.max.time())
+            start_date = datetime.combine(form.date_start.data, datetime.min.time())
+            print(f'running end_date_validator... end_date is: { end_date }')
+            print(f'running end_date_validator... start_date is: { start_date }')
+
+            if end_date <= start_date:
+                print(f'running end_date_validator... ValidationError: end_date of: { end_date } is before start date of: { start_date }')
+                raise ValidationError("End time must be after start time.")
+
+
+# Custom validator 7: The date selected is not in the future
+def not_future_date_validator(self, field):
+    print(f'not_future_date_validator... ')
+    
+    if field.data and field.data < datetime.now().date():
+        print(f'running not_future_date_validator... ValidationError: field.data of: { field.date } is ahead of current date: { datetime.now().date }')
+        raise ValidationError("Cannot select a future date.")
+
+    
+    
+    
+    if not is_positive(field.data):
+        print(f'Custom validator is_positive_validator failed for input: {field.data}')
+        raise ValidationError(f'Error: Input for "{field.label.text}" must be positive.')
+    else:
+        return field.data
+
+            
