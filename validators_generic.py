@@ -19,7 +19,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, R
 # Custom validator 1: Ensure user input does not contain prohibited chars. 
 user_input_allowed_letters = 'a-zA-Z'
 user_input_allowed_numbers = '0-9'
-user_input_allowed_symbols = '.@-#! '
+user_input_allowed_symbols = '.@-#! _'
 # Escape the symbols for safe inclusion in regex pattern
 user_input_allowed_symbols_escaped = re.escape(user_input_allowed_symbols or '')
 user_input_allowed_all = ''.join([user_input_allowed_letters, 
